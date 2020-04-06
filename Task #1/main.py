@@ -3,20 +3,23 @@ import sys
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMessageBox
 import numpy as np
+from pyqtgraph import mkPen
+
 import blochGUI as m
 from imageModel import ImageModel
 
-#importing module
+# importing module
 import logging
 
-#Create and configure logger
+# Create and configure logger
 logging.basicConfig(level=logging.DEBUG,
                     filename="playground.log",
-					format='%(lineno)s - %(levelname)s - %(message)s',
-					filemode='w')
+                    format='%(lineno)s - %(levelname)s - %(message)s',
+                    filemode='w')
 
-#Creating an object
-logger=logging.getLogger()
+# Creating an object
+logger = logging.getLogger()
+
 
 class blochSimulator(m.Ui_MainWindow):
 
@@ -28,7 +31,7 @@ class blochSimulator(m.Ui_MainWindow):
         super(blochSimulator, self).setupUi(starterWindow)
 
         # Images List
-        self.imageWidgets = [self.img1_original,  self.img1_updated]
+        self.imageWidgets = [self.img1_original, self.img1_updated]
 
         # Widgets List
         self.widgets = [self.nonUniWidget, self.blochWidget]
@@ -41,29 +44,28 @@ class blochSimulator(m.Ui_MainWindow):
         self.widgetConfiguration()
 
         # init the data of the MRI.
-        self.dt = 1             # 1 ms delta-time.
-        self.T = 1000           # 1000 ms time.
-        self.N = int(self.T / self.dt)+1         # number of time steps.
+        self.dt = 1  # 1 ms delta-time.
+        self.T = 1000  # 1000 ms time.
+        self.N = int(self.T / self.dt) + 1  # number of time steps.
         # self.df = 2                            # freq of oscillation
-        self.tr = 300                           # time of repetion the Rf pulse
-        self.te = 100                           # time to measure the signal 
-        self.M0 = 1                             # mag of M0
-        self.time = np.linspace(0,self.T,self.N) # list of the time to plot in x-axis
-        
-        #connect the pushbutton
+        self.tr = 300  # time of repetion the Rf pulse
+        self.te = 100  # time to measure the signal
+        self.M0 = 1  # mag of M0
+        self.time = np.linspace(0, self.T, self.N)  # list of the time to plot in x-axis
+
+        # connect the pushbutton
         self.pushButton.clicked.connect(self.Mxyz)
 
         # change the lables of the sliders
-        self.sliders = [self.fSlider,self.t1Slider,self.t2Slider]       # list of all the sliders
-        self.slidersLable = [self.fLabel,self.t1Label,self.t2Label]     # list of all the labels of sliders
-        for i in range(len(self.sliders)):                              # set the albel to 0 value
+        self.sliders = [self.fSlider, self.t1Slider, self.t2Slider]  # list of all the sliders
+        self.slidersLable = [self.fLabel, self.t1Label, self.t2Label]  # list of all the labels of sliders
+        for i in range(len(self.sliders)):  # set the albel to 0 value
             self.slidersLable[i].setText(str(self.sliders[i].value()))
-        
+
         # conncet the sliders to the function
-        self.fSlider.valueChanged.connect(lambda : self.changeLable(0))
-        self.t1Slider.valueChanged.connect(lambda:self.changeLable(1))
-        self.t2Slider.valueChanged.connect(lambda:self.changeLable(2))
-        
+        self.fSlider.valueChanged.connect(lambda: self.changeLable(0))
+        self.t1Slider.valueChanged.connect(lambda: self.changeLable(1))
+        self.t2Slider.valueChanged.connect(lambda: self.changeLable(2))
 
         logger.info("The Application started successfully")
 
@@ -75,16 +77,16 @@ class blochSimulator(m.Ui_MainWindow):
         """
         # Open File & Check if it was loaded correctly
         logger.info("Browsing the files...")
-        self.filename, self.format = QtWidgets.QFileDialog.getOpenFileName(None, "Load Image", '/home', "*.jpg;;" "*.jpeg;;" "*.png;;" "*.svg;;")
+        self.filename, self.format = QtWidgets.QFileDialog.getOpenFileName(None, "Load Image", '/home',
+                                                                           "*.jpg;;" "*.jpeg;;" "*.png;;" "*.svg;;")
         imgName = self.filename.split('/')[-1]
         if self.filename == "":
             pass
         else:
-            self.imageModel= ImageModel(self.filename)
+            self.imageModel = ImageModel(self.filename)
             self.displayImage(self.imageModel.imgByte, self.img1_original)
             self.combo_input1.setEnabled(True)
             logger.info(f"Added Image: {imgName} successfully")
-
 
     def setupImagesView(self):
         """
@@ -121,7 +123,8 @@ class blochSimulator(m.Ui_MainWindow):
         :return:
         """
         widget.setImage(data)
-        widget.view.setRange(xRange=[0, self.imageModel.imgShape[0]], yRange=[0, self.imageModel.imgShape[1]], padding=0)
+        widget.view.setRange(xRange=[0, self.imageModel.imgShape[0]], yRange=[0, self.imageModel.imgShape[1]],
+                             padding=0)
         widget.ui.roiPlot.hide()
 
     def updateCombosChanged(self):
@@ -144,37 +147,35 @@ class blochSimulator(m.Ui_MainWindow):
 
         logger.info(f"Viewing {selectedComponent} Component Of The Image")
 
-    def changeLable (self,sliderIndex):
+    def changeLable(self, sliderIndex):
         '''
         change the label w.r.t to the slider 
         '''
         self.slidersLable[sliderIndex].setText(str(self.sliders[sliderIndex].value()))
 
-
-    def Mxyz (self):
+    def Mxyz(self):
         '''
         call the value of Mxy and Mz 
         '''
-        self.blochWidget.plotItem.clear()   # clear the widget fron any previous plot
+        self.blochWidget.plotItem.clear()  # clear the widget fron any previous plot
 
-        df = self.fSlider.value()           # get the value of f
-        T1 = self.t1Slider.value()          # get the value of T1
-        T2 = self.t2Slider.value()          # get the value of T2
-        
-        
-        x = np.linspace(0,self.te,len(self.time))      # list of the time taking to take a photo
-        Mxy = self.M0 * (np.exp(-x/T2))*np.cos(2*np.pi*df*(x/T2))     # Mxy oscillation
-        line =self.M0 * np.exp(-x/T2)            # the decay of Mxy
+        df = self.fSlider.value()  # get the value of f
+        T1 = self.t1Slider.value()  # get the value of T1
+        T2 = self.t2Slider.value()  # get the value of T2
 
-        tr = np.linspace(0,self.tr,len(self.time))         # list of the time taking to Tr
-        Mz = self.M0 * (1 - np.exp(-tr/T1))      # increasing of Mz
-        plot = [Mxy , Mz , line]            # list of all plotting data 
+        x = np.linspace(0, self.te, len(self.time))  # list of the time taking to take a photo
+        Mxy = self.M0 * (np.exp(-x / T2)) * np.cos(2 * np.pi * df * (x / T2))  # Mxy oscillation
+        line = self.M0 * np.exp(-x / T2)  # the decay of Mxy
+
+        tr = np.linspace(0, self.tr, len(self.time))  # list of the time taking to Tr
+        Mz = self.M0 * (1 - np.exp(-tr / T1))  # increasing of Mz
+        plot = [Mxy, Mz, line]  # list of all plotting data
+
+        colors = ['b', 'r', 'w']
 
         # plot the data 
         for i in range(len(plot)):
-            self.blochWidget.plotItem.plot(self.time , plot[i])
-
-        
+            self.blochWidget.plotItem.plot(self.time, plot[i], pen =  mkPen(colors.pop(), width=2, style=QtCore.Qt.SolidLine))
 
     def showMessage(self, header, message, button, icon):
         msg = QMessageBox()
