@@ -27,3 +27,4 @@ The following image demonstrates the Rotating Frame
 ![alt text](Relaxation.gif "Rotating Frame.")
 The Precession
 ![alt text](Precess.gif "The Precession.")
+

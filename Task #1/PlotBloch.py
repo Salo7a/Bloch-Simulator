@@ -1,10 +1,12 @@
 from qutip import Bloch
 import numpy as np
 import matplotlib
-matplotlib.use("TkAgg")
+from scipy.spatial.transform import Rotation as R
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
+
+matplotlib.use("TkAgg")
 
 figure = plt.figure(figsize=[6, 6])
 ax = Axes3D(figure, azim=-120, elev=30)
@@ -13,17 +15,30 @@ sphere.zlabel = ['z', '-z']
 
 # init the data of the MRI.
 t = 1
-M0 = 1                                      # mag of M0
-T1 = 6                                     # T1 Value
-T2 = 3                                      # T2 Value
+M0 = 1  # mag of M0
+T1 = 6  # T1 Value
+T2 = 3  # T2 Value
 
-Mxy = M0 * np.exp(-t/T2)
+Mxy = M0 * np.exp(-t / T2)
 # Mx = M0 * np.exp(-t/T2) * np.sin(2*np.pi*1*t)
 # My = M0 * np.exp(-t/T2) * np.cos(2*np.pi*1*t)
-Mz = M0 * (1 - np.exp(-t/T1))
+Mz = M0 * (1 - np.exp(-t / T1))
 M = [Mxy, Mxy, 0]
 # M = [Mx, My, 0]
 sphere.add_vectors(M)
+
+
+def yrot(vector, theta):
+    vec = vector
+
+    rotation_degrees = theta
+    rotation_radians = np.radians(rotation_degrees)
+    rotation_axis = np.array([0, 1, 0])
+
+    rotation_vector = rotation_radians * rotation_axis
+    rotation = R.from_rotvec(rotation_vector)
+    return rotation.apply(vec)
+
 
 def updateAnimation(t):
     global Mxy, Mz, Mx, My
@@ -39,6 +54,7 @@ def updateAnimation(t):
     M[2] = Mz
     sphere.add_vectors(M)
     sphere.make_sphere()
+
 
 ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 200, 0.1), interval=50)
 # ani.save("RelaxationWithPrecession.mp4")
