@@ -68,3 +68,11 @@ Bloch Equation Simulation
 
 ![alt text](Bloch.png "Bloch Equation.")
 
+###### Pulse Repetition Time (TR)
+the red line in the plot explain the time between 2 successive RF pulse sequence
+
+![equation](sadsa)
+
+ $\alpha$
+
+$$e = mc^2$$
