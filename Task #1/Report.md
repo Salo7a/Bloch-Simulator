@@ -62,6 +62,9 @@ The Precession
 ![alt text](Precess.gif "The Precession.")
 
 ---
+Bloch Equation Simulation
+---
 
 
+![alt text](Bloch.png "Bloch Equation.")
 

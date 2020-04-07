@@ -23,9 +23,12 @@ Mxy = M0 * np.exp(-t / T2)
 # Mx = M0 * np.exp(-t/T2) * np.sin(2*np.pi*1*t)
 # My = M0 * np.exp(-t/T2) * np.cos(2*np.pi*1*t)
 Mz = M0 * (1 - np.exp(-t / T1))
-M = [Mxy, Mxy, 0]
+# M = [Mxy, Mxy, 0]
 # M = [Mx, My, 0]
+M = [0, 0, 1]
 sphere.add_vectors(M)
+rotated = False
+i = 0
 
 
 def yrot(vector, theta):
@@ -41,21 +44,27 @@ def yrot(vector, theta):
 
 
 def updateAnimation(t):
-    global Mxy, Mz, Mx, My
+    global Mxy, Mz, Mx, My, M, i
     sphere.clear()
-    Mxy = M0 * np.exp(-t / T2)
-    # Mx = M0 * np.exp(-t / T2) * np.sin(2 * np.pi * 1 * t)
-    # My = M0 * np.exp(-t / T2) * np.cos(2 * np.pi * 1 * t)
-    Mz = M0 * (1 - np.exp(-t / T1))
-    M[0] = Mxy
-    M[1] = Mxy
-    # M[0] = Mx
-    # M[1] = My
-    M[2] = Mz
+    if i < 90:
+        r = yrot(M, 1)
+        M = r
+        i += 1
+        t = 1
+    else:
+        Mxy = M0 * np.exp(-t / T2)
+        # Mx = M0 * np.exp(-t / T2) * np.sin(2 * np.pi * 1 * t)
+        # My = M0 * np.exp(-t / T2) * np.cos(2 * np.pi * 1 * t)
+        Mz = M0 * (1 - np.exp(-t / T1))
+        M[0] = Mxy
+        M[1] = Mxy
+        # M[0] = Mx
+        # M[1] = My
+        M[2] = Mz
     sphere.add_vectors(M)
     sphere.make_sphere()
 
 
-ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 200, 0.1), interval=50)
-# ani.save("RelaxationWithPrecession.mp4")
+ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 40, 0.1), interval=50)
+ani.save("RelaxationWithPrecession.mp4")
 plt.show()
