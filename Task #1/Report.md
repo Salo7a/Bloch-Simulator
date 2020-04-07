@@ -7,7 +7,7 @@
 | Salma Ayman Ahmed       | 1       |           37 |
 | Abdullah Mohammed Sabry | 2       |            8 |
 
-## Fourier Transform
+Fourier Transform
 ---
 
 By applying the Discrete Fast Fourier Transform method, we obtained the Fourier Transform of an image, we then plotted its Components (Magnitude, Phase, Real Part, Imaginary Part) Separately.
@@ -30,8 +30,7 @@ It's Phase
 
 ---
 
-##Non-Uniform Magnetic Field
-
+Non-Uniform Magnetic Field
 ---
 
 We created a function that simulates the non-uniformity of a magnet, giving it the theoretical magnetic flux density in Tesla, maximum deviation due to the non-uniformity and the length of the magnet, using this data it generates a random curve we then plot this curve in our program.
@@ -41,7 +40,9 @@ We created a function that simulates the non-uniformity of a magnet, giving it t
 ![alt text](Nonuniform.png "The generated curve of the non-uniformity effect.")
 
 ---
-##Relaxation Process
+Relaxation Process
+---
+
 It’s a process where the spins, which received a Radio Frequency pulse which caused it to change the direction of its field, to release the energy it received from the pulse while returning to its original position
 
 ---
