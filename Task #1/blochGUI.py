@@ -94,9 +94,9 @@ class Ui_MainWindow(object):
         self.label_img1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.label_img1.setObjectName("label_img1")
         self.gridLayout_5.addWidget(self.label_img1, 0, 0, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout_5.addWidget(self.pushButton_2, 0, 1, 1, 1)
+        self.generatebutton = QtWidgets.QPushButton(self.centralwidget)
+        self.generatebutton.setObjectName("generatebutton")
+        self.gridLayout_5.addWidget(self.generatebutton, 0, 1, 1, 1)
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_3.setTitle("")
         self.groupBox_3.setObjectName("groupBox_3")
@@ -207,7 +207,7 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addLayout(self.verticalLayout_4, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1258, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1258, 20))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -229,7 +229,7 @@ class Ui_MainWindow(object):
         self.load_btn.setText(_translate("MainWindow", "Load Image"))
         self.groupBox.setTitle(_translate("MainWindow", "Original Image"))
         self.label_img1.setText(_translate("MainWindow", "Non-Uniform Bo"))
-        self.pushButton_2.setText(_translate("MainWindow", "Generate"))
+        self.generatebutton.setText(_translate("MainWindow", "Generate"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Parameters"))
         self.label_6.setText(_translate("MainWindow", "F"))
         self.fLabel.setText(_translate("MainWindow", "TextLabel"))
@@ -240,13 +240,3 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Simulate"))
         self.label_bloch.setText(_translate("MainWindow", "Bloch Equation Simulation"))
 from pyqtgraph import ImageView, PlotWidget
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

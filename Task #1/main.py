@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMessageBox
 import numpy as np
 from pyqtgraph import mkPen
+from smurves import surgebinder
 
 import blochGUI as m
 from imageModel import ImageModel
@@ -66,6 +67,11 @@ class blochSimulator(m.Ui_MainWindow):
         self.fSlider.valueChanged.connect(lambda: self.changeLable(0))
         self.t1Slider.valueChanged.connect(lambda: self.changeLable(1))
         self.t2Slider.valueChanged.connect(lambda: self.changeLable(2))
+
+        # Connect Generate Button To Function
+        self.generatebutton.clicked.connect(self.PlotBz)
+        self.nonUniWidget.plotItem.setLabel(axis='left', text="Tesla")
+        self.nonUniWidget.plotItem.setLabel(axis='bottom', text="Point")
 
         logger.info("The Application started successfully")
 
@@ -175,7 +181,8 @@ class blochSimulator(m.Ui_MainWindow):
 
         # plot the data 
         for i in range(len(plot)):
-            self.blochWidget.plotItem.plot(self.time, plot[i], pen =  mkPen(colors.pop(), width=2, style=QtCore.Qt.SolidLine))
+            self.blochWidget.plotItem.plot(self.time, plot[i],
+                                           pen=mkPen(colors.pop(), width=2, style=QtCore.Qt.SolidLine))
 
     def showMessage(self, header, message, button, icon):
         msg = QMessageBox()
@@ -184,6 +191,23 @@ class blochSimulator(m.Ui_MainWindow):
         msg.setIcon(icon)
         msg.setStandardButtons(button)
         x = msg.exec_()
+
+    def GenerateNonUniform(self, Tesla=1.5, MaxDeviation=15, Length=2000):
+        start = Tesla - Tesla * (MaxDeviation / 100)
+        end = Tesla + Tesla * (MaxDeviation / 100)
+        curve = surgebinder(n_curves=1,
+                            x_interval=[0.0, float(Length)],
+                            y_interval=[start, end],
+                            n_measure=Length,
+                            direction_maximum=4)
+        return np.asarray(curve)
+
+    def PlotBz(self):
+        Field = self.GenerateNonUniform()
+        self.nonUniWidget.plotItem.clear()
+        self.nonUniWidget.setXRange(0, 2000)
+        self.nonUniWidget.plotItem.plot(Field[0, :, 0], Field[0, :, 1],
+                                        pen=mkPen('c', width=2, style=QtCore.Qt.SolidLine))
 
 
 def main():
