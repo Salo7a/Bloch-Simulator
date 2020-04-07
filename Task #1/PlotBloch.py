@@ -56,12 +56,12 @@ def updateAnimation(t):
     sphere.clear()
     if i < 90:
         i += 1
-        # r = yrot(M, 90)
-        # M = r
+        r = yrot(M, 1)
+        M = r
     else:
         if not rotated:
-            r = yrot(M, 1)
-            M = r
+            # r = yrot(M, 1)
+            # M = r
             rotated = True
             elapsed = t
         Mxy = M0 * np.exp(-(t - elapsed + 1) / T2)
