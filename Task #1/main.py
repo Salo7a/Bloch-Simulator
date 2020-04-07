@@ -192,7 +192,7 @@ class blochSimulator(m.Ui_MainWindow):
         msg.setStandardButtons(button)
         x = msg.exec_()
 
-    def GenerateNonUniform(self, Tesla=1.5, MaxDeviation=15, Length=2000):
+    def GenerateNonUniform(self, Tesla=1.5, MaxDeviation=5, Length=2000):
         start = Tesla - Tesla * (MaxDeviation / 100)
         end = Tesla + Tesla * (MaxDeviation / 100)
         curve = surgebinder(n_curves=1,
