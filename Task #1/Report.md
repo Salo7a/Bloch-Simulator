@@ -1,5 +1,3 @@
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 # MRI Task 1 Report
 
 | Name                    | Section | Bench Number |
@@ -70,25 +68,24 @@ Bloch Equation Simulation
 
 ![alt text](Bloch.png "Bloch Equation.")
 
-###### Pulse Repetition Time (TR)
-the red line in the plot explain the time between 2 successive RF pulse sequence
+##### Transverse Relaxation.
 
-![equation](sadsa)
+Transverse relaxation is an exponential decay process of the x and y components of magnetization that is always happening. Pulse Echo Time `TE` is the waiting time after the `RF` pulse sequence before measuring the signal. Mathematically this means 
 
- $\alpha$
+$$Mx(t)=Mx(0)exp(-TE/T2)$$     (1)
 
-$$e = mc^2$$
+and
 
-<html>
-<head>
-<title>MathJax TeX Test Page</title>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
-</head>
-<body>
-When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-</body>
-</html>
+$$My(t)=My(0)exp(-TE/T2)$$       (2)
+
+the blue line in the plot shows how it happened.
+
+##### Longitudinal Relaxation.
+
+Longitudinal `z` relaxation is a bit more complicated than transverse relaxation. The magnetization recovers exponentially with a time constant T1, to a non-zero value, often called M0. Pulse Repetition Time `TR` is the time between 2 successive `RF` Pulse sequence .Mathematically, we write 
+
+$$Mz(t)=M0*[1-exp(-TR/T1)]$$     (3)
+
+the red line in the plot shows how it happened.
+
+
