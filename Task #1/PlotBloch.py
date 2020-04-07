@@ -55,14 +55,16 @@ def updateAnimation(t):
     global Mxy, Mz, Mx, My, M, i, rotated, elapsed
     sphere.clear()
     if i < 90:
-        r = yrot(M, 1)
-        M = r
         i += 1
+        # r = yrot(M, 90)
+        # M = r
     else:
         if not rotated:
+            r = yrot(M, 1)
+            M = r
             rotated = True
             elapsed = t
-        Mxy = M0 * np.exp(-(t - elapsed) / T2)
+        Mxy = M0 * np.exp(-(t - elapsed + 1) / T2)
         # Mx = M0 * np.exp(-t / T2) * np.sin(2 * np.pi * 1 * t)
         # My = M0 * np.exp(-t / T2) * np.cos(2 * np.pi * 1 * t)
         Mz = M0 * (1 - np.exp(-(t - elapsed) / T1))
@@ -76,6 +78,11 @@ def updateAnimation(t):
     sphere.make_sphere()
 
 
-ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 40, 0.1), interval=50)
-# ani.save("RelaxationWithPrecession.mp4")
+ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 40, 0.1), interval=30)
+ani.save("RelaxationWithPrecession.mp4")
 plt.show()
+
+r = yrot(M, 90)
+M = r
+i += 1
+print(M)
