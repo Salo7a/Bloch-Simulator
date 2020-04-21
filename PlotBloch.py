@@ -79,7 +79,7 @@ def updateAnimation(t):
 
 
 ani = FuncAnimation(figure, updateAnimation, frames=np.arange(1, 40, 0.1), interval=30)
-ani.save("RelaxationWithPrecession.mp4")
+# ani.save("RelaxationWithPrecession.mp4")
 plt.show()
 
 r = yrot(M, 90)
