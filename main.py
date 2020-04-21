@@ -14,7 +14,7 @@ import logging
 
 # Create and configure logger
 logging.basicConfig(level=logging.DEBUG,
-                    filename="playground.log",
+                    filename="app.log",
                     format='%(lineno)s - %(levelname)s - %(message)s',
                     filemode='w')
 

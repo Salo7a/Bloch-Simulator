@@ -18,7 +18,7 @@ Magnitude of an Image:
 
 ---
 
-![alt text](Mag.png "Magnitude of the Fourier Transform of an image")
+!["alt text"](results/Mag.png "Magnitude of the Fourier Transform of an image")
 
 ---
 
@@ -26,7 +26,7 @@ It's Phase
 
 ---
 
-![alt text](Phase.png "Phase of the Fourier Transform of an image")
+![alt text](results/Phase.png "Phase of the Fourier Transform of an image")
 
 ---
 
@@ -37,7 +37,7 @@ We created a function that simulates the non-uniformity of a magnet, giving it t
 
 ---
 
-![alt text](Nonuniform.png "The generated curve of the non-uniformity effect.")
+![alt text](results/Nonuniform.png "The generated curve of the non-uniformity effect.")
 
 ---
 Relaxation Process
@@ -51,7 +51,7 @@ The following image demonstrates the Rotating Frame
 
 ---
 
-![alt text](Relaxation.gif "Rotating Frame.")
+![alt text](results/Relaxation.gif "Rotating Frame.")
 
 ---
 
@@ -59,14 +59,14 @@ The Precession
 
 ---
 
-![alt text](Precess.gif "The Precession.")
+![alt text](results/Precess.gif "The Precession.")
 
 ---
 Bloch Equation Simulation
 ---
 
 
-![alt text](Bloch.png "Bloch Equation.")
+![alt text](results/Bloch.png "Bloch Equation.")
 
 ##### Transverse Relaxation.
 
